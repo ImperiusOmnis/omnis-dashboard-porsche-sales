@@ -8,11 +8,13 @@ O projeto explora o uso de IA na construção de soluções analíticas, partind
 
 ---
 
-## 🚀 Acesse o Dashboard Interativo
+## 🚀 Dashboard Interativo
 
-👉 **[Clique aqui para visualizar o dashboard](COLE_AQUI_O_LINK_DO_GITHUB_PAGES)**
+### 👉 [Acessar Porsche Sales Intelligence](https://imperiusomnis.github.io/omnis-dashboard-porsche-sales/)
 
-O dashboard pode ser utilizado diretamente pelo navegador e possui filtros interativos que atualizam automaticamente os indicadores e análises.
+O dashboard está publicado através do GitHub Pages e pode ser utilizado diretamente pelo navegador.
+
+Os filtros atualizam dinamicamente os indicadores, gráficos, rankings, insights e tabelas de acordo com o recorte selecionado.
 
 ---
 
@@ -25,7 +27,7 @@ Transformar uma base de vendas de veículos Porsche em uma experiência analíti
 - ticket médio;
 - modelos mais vendidos;
 - distribuição geográfica das vendas;
-- ano dos veículos;
+- ano dos modelos;
 - métodos de pagamento;
 - comportamento dos modelos por cidade.
 
@@ -44,13 +46,15 @@ A dashboard foi construída para responder às seguintes perguntas:
 5. Qual foi a receita total de vendas?
 6. Qual foi o valor médio de venda por veículo?
 
-As três primeiras perguntas fizeram parte da proposta original do desafio. As três últimas foram adicionadas durante o desenvolvimento para ampliar a análise da base.
+As três primeiras perguntas fizeram parte da proposta original do desafio.
+
+As três últimas foram adicionadas durante o desenvolvimento para ampliar a análise da base com indicadores financeiros e informações sobre os meios de pagamento.
 
 ---
 
 ## 📊 Principais KPIs
 
-A visão executiva apresenta indicadores que são recalculados de acordo com os filtros selecionados:
+A visão executiva apresenta indicadores recalculados de acordo com os filtros selecionados:
 
 - **Vendas:** quantidade de veículos no recorte atual;
 - **Receita:** soma dos valores das vendas;
@@ -61,16 +65,16 @@ A visão executiva apresenta indicadores que são recalculados de acordo com os 
 
 ## 🔎 Filtros Interativos
 
-O dashboard permite filtrar os dados por:
+O dashboard permite explorar os dados através dos seguintes filtros:
 
 - **Modelo da Porsche**
 - **Model Year**
 - **City**
 - **Pay Method**
 
-Ao alterar um filtro, os KPIs, gráficos, rankings, insights e tabelas são atualizados automaticamente.
+Ao alterar qualquer filtro, as análises são recalculadas automaticamente.
 
-Também foi incluída a opção **Limpar filtros**, permitindo retornar rapidamente à visão completa da base.
+Também está disponível a opção **Limpar filtros**, permitindo retornar à visualização completa da base.
 
 ---
 
@@ -83,23 +87,23 @@ Compara as cidades considerando:
 - quantidade de vendas;
 - receita gerada.
 
-Isso permite observar não apenas onde existem mais vendas, mas também o valor financeiro movimentado em cada localidade.
+A visualização permite analisar tanto o volume comercial quanto o valor financeiro movimentado em cada localidade.
 
 ### 📅 Ano de modelo
 
-Apresenta a distribuição dos veículos vendidos de acordo com o ano do modelo e identifica o ano com maior participação no recorte selecionado.
+Apresenta a distribuição dos veículos vendidos de acordo com o ano do modelo e permite identificar o ano com maior participação no recorte selecionado.
 
 ### 🚘 Modelos mais populares
 
-Ranking dos modelos Porsche de acordo com a quantidade de vendas.
+Apresenta um ranking dos modelos Porsche de acordo com a quantidade de vendas.
 
 ### 💳 Mix de pagamento
 
-Apresenta os métodos de pagamento utilizados e suas respectivas participações no total de vendas do recorte.
+Compara os métodos de pagamento utilizados, apresentando volume de vendas e participação percentual de cada método.
 
 ### 🧠 Insight executivo
 
-O dashboard gera automaticamente uma leitura descritiva dos dados selecionados, destacando informações como:
+O dashboard gera automaticamente uma leitura descritiva do recorte selecionado, destacando informações como:
 
 - modelo líder;
 - participação do modelo;
@@ -112,7 +116,7 @@ Os insights representam padrões observados nos dados e não devem ser interpret
 
 ### 🌎 Modelos líderes por cidade
 
-Tabela analítica que apresenta:
+Uma tabela analítica complementa as visualizações apresentando:
 
 - cidade;
 - modelo(s) líder(es);
@@ -121,7 +125,7 @@ Tabela analítica que apresenta:
 - participação;
 - receita.
 
-Essa análise permite observar quais veículos apresentam maior presença em cada praça.
+Essa análise permite identificar quais modelos apresentam maior presença em cada praça.
 
 ---
 
@@ -129,13 +133,13 @@ Essa análise permite observar quais veículos apresentam maior presença em cad
 
 Durante o processamento da base foram identificados **23 registros com data de venda inválida**.
 
-Para manter transparência sobre o tratamento dos dados:
+Para manter transparência sobre o tratamento dessas informações:
 
 - os indicadores de volume e receita consideram todos os registros;
-- o período exibido no dashboard considera apenas registros com datas válidas;
-- a limitação é informada diretamente na interface.
+- o período apresentado no dashboard considera somente datas válidas;
+- a existência dos registros com datas inválidas é informada diretamente na interface.
 
-Esse tratamento evita ocultar problemas existentes na base e deixa claro como eles afetam a análise.
+Essa abordagem permite preservar os registros disponíveis sem ocultar uma limitação existente na qualidade da base.
 
 ---
 
@@ -148,13 +152,13 @@ O processo partiu da definição de requisitos, incluindo:
 - perguntas de negócio;
 - KPIs;
 - filtros;
-- comportamento esperado da dashboard;
-- direcionamento visual;
+- comportamento esperado do dashboard;
+- direcionamento de UI/UX;
 - ajustes realizados durante as iterações.
 
-A IA foi responsável pela geração do código HTML, CSS e JavaScript, enquanto as instruções e ajustes foram utilizados para direcionar a solução ao resultado esperado.
+A IA foi responsável pela geração do código HTML, CSS e JavaScript, enquanto as instruções e ajustes realizados durante o projeto direcionaram a solução até a versão final.
 
-O objetivo deste projeto não é demonstrar domínio de desenvolvimento web, mas explorar como a IA pode ser utilizada para transformar requisitos analíticos em uma aplicação funcional.
+O objetivo deste projeto não é demonstrar domínio de desenvolvimento web, mas explorar como a IA pode ser utilizada para transformar requisitos de negócio e análise de dados em uma aplicação funcional.
 
 ---
 
@@ -162,7 +166,7 @@ O objetivo deste projeto não é demonstrar domínio de desenvolvimento web, mas
 
 A interface foi orientada por uma proposta visual elegante e refinada, inspirada na identidade visual da Porsche Brasil.
 
-O dashboard utiliza:
+Foram utilizados:
 
 - contraste entre preto, branco e tons neutros;
 - vermelho como cor de destaque;
@@ -186,7 +190,7 @@ O dashboard utiliza:
 - Análise de Dados
 - Visualização de Dados
 
-> HTML, CSS e JavaScript foram utilizados pela solução gerada com auxílio de IA e não representam, por si só, domínio manual dessas tecnologias.
+> HTML, CSS e JavaScript foram utilizados na solução gerada com auxílio de IA e não representam, por si só, domínio manual dessas tecnologias.
 
 ---
 
@@ -210,7 +214,7 @@ O projeto reforçou que o uso de IA em análise de dados não elimina a necessid
 
 ## 💬 Prompt Utilizado
 
-O dashboard foi desenvolvido a partir de um prompt contendo os filtros, perguntas de negócio e direcionamento visual desejados.
+O dashboard foi desenvolvido a partir de um prompt contendo os filtros, perguntas de negócio e direcionamento visual desejados:
 
 ```text
 Utilizando o recurso de canvas, renderize uma dashboard em html ao lado.
@@ -234,50 +238,54 @@ Sobre ui/ux, se baseie no site oficial da porsche brasil.
 Tenha um ar de elegante e refinado.
 ```
 
-Após a geração inicial, foram realizadas novas interações com a IA para ajustar elementos do dashboard e chegar à versão final.
+Após a geração inicial, foram realizadas novas interações com a IA para ajustar elementos da dashboard e chegar à versão final.
 
 ---
 
 ## 📁 Estrutura do Repositório
 
 ```text
-omnis-porsche-sales-intelligence/
+omnis-dashboard-porsche-sales/
 │
 ├── index.html
 └── README.md
 ```
 
-O arquivo `index.html` contém a dashboard interativa, incluindo os dados utilizados pela aplicação, estilos e lógica de interação.
+O arquivo `index.html` contém a aplicação interativa, incluindo os dados utilizados pelo dashboard, estilos e lógica de interação.
 
 ---
 
-## ▶️ Como Executar
+## ▶️ Como Visualizar
 
-### Opção 1 — GitHub Pages
+### 🌐 Online
 
-Acesse o link disponibilizado no início deste README para utilizar o dashboard diretamente pelo navegador.
+A forma mais simples é acessar a versão publicada no GitHub Pages:
 
-### Opção 2 — Localmente
+👉 **[Abrir Dashboard Interativo](https://imperiusomnis.github.io/omnis-dashboard-porsche-sales/)**
+
+### 💻 Localmente
 
 1. Faça o download do arquivo `index.html`;
 2. abra o arquivo em um navegador;
 3. utilize os filtros para explorar os dados.
 
-Não é necessária instalação de software adicional para visualizar o projeto.
+Não é necessária instalação adicional para executar o dashboard.
 
 ---
 
 ## 📚 Origem do Projeto
 
-Projeto desenvolvido como parte da formação **Análise de Dados com Excel e IA**, da **DIO**, seguindo uma atividade prática voltada ao uso de Inteligência Artificial na criação de dashboards.
+Projeto desenvolvido como parte da formação **Análise de Dados com Excel e IA**, da **DIO**.
 
-A atividade original definiu parte das perguntas de negócio e orientou a construção da solução com IA.
+A atividade prática propôs o uso de Inteligência Artificial para transformar uma base de dados em um dashboard interativo.
 
-Como complemento ao desafio, foram adicionadas novas perguntas de negócio relacionadas a:
+As três primeiras perguntas de negócio foram definidas durante o desafio.
+
+Como expansão da análise, foram adicionadas outras três perguntas relacionadas a:
 
 - método de pagamento;
 - receita de vendas;
-- valor médio por veículo.
+- valor médio de venda por veículo.
 
 Também foram realizadas iterações próprias sobre o resultado gerado pela IA para ajustar a solução final.
 
@@ -298,3 +306,7 @@ Os dados utilizados pertencem à base fornecida para realização do desafio e a
 Estudante de Ciência de Dados, desenvolvendo conhecimentos em Excel, Power Query, SQL, Power BI e análise de dados.
 
 🔗 GitHub: [ImperiusOmnis](https://github.com/ImperiusOmnis)
+
+---
+
+⭐ Se este projeto foi útil ou interessante, fique à vontade para explorar o dashboard e o código disponível neste repositório.
