@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0b0c">
+<title>Porsche Sales Intelligence</title>
+<style>
+:root{
+  --bg:#f4f4f2;
+  --surface:#ffffff;
+  --surface-2:#efefec;
+  --ink:#0b0b0c;
+  --muted:#707074;
+  --line:#d9d9d6;
+  --red:#d5001c;
+  --red-dark:#9f0015;
+  --cream:#e8e4df;
+  --radius-xl:28px;
+  --radius-lg:20px;
+  --radius-md:14px;
+  --shadow:0 18px 48px rgba(0,0,0,.08);
+  --shadow-soft:0 8px 28px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+button,select{font:inherit}
+button{cursor:pointer}
+::selection{background:#111;color:#fff}
+
+.shell{max-width:1600px;margin:0 auto;padding:0 28px 54px}
+.hero{
+  position:relative;
+  min-height:390px;
+  margin:0 -28px 26px;
+  padding:28px clamp(28px,5vw,76px) 48px;
+  background:
+    radial-gradient(circle at 77% 18%, rgba(213,0,28,.22), transparent 19%),
+    radial-gradient(circle at 67% 90%, rgba(255,255,255,.12), transparent 26%),
+    linear-gradient(122deg,#09090a 0%,#111114 62%,#1b1b1f 100%);
+  color:#fff;
+  overflow:hidden;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  right:-8%;
+  bottom:-58%;
+  width:62vw;
+  height:62vw;
+  max-width:880px;
+  max-height:880px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:50%;
+  box-shadow:0 0 0 90px rgba(255,255,255,.025),0 0 0 180px rgba(255,255,255,.018);
+}
+.brandbar{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+}
+.brand{
+  font-weight:700;letter-spacing:.36em;font-size:15px;white-space:nowrap;
+}
+.brand span{letter-spacing:.12em;font-weight:400;color:#bcbcc2;margin-left:16px}
+.hero-link{
+  color:#e4e4e8;text-decoration:none;font-size:12px;letter-spacing:.08em;
+  border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:4px;
+}
+.hero-copy{
+  position:relative;z-index:2;max-width:820px;margin-top:92px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  text-transform:uppercase;letter-spacing:.18em;font-size:11px;color:#c6c6ca;
+}
+.eyebrow:before{content:"";width:28px;height:2px;background:var(--red);display:block}
+.hero h1{
+  margin:18px 0 16px;
+  font-size:clamp(42px,6.2vw,86px);
+  line-height:.93;letter-spacing:-.055em;font-weight:500;
+}
+.hero p{
+  margin:0;max-width:610px;color:#c8c8cd;line-height:1.62;font-size:15px;
+}
+.period-pill{
+  display:inline-flex;align-items:center;gap:10px;margin-top:30px;
+  padding:10px 13px;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);backdrop-filter:blur(8px);
+  border-radius:999px;color:#e3e3e7;font-size:12px;
+}
+.period-pill i{width:7px;height:7px;border-radius:50%;background:var(--red);display:block}
+
+.filter-panel{
+  margin-top:-58px;position:relative;z-index:5;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(18px);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:var(--radius-xl);box-shadow:var(--shadow);
+  padding:22px;
+}
+.filter-head{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:16px;
+}
+.filter-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.filter-meta{font-size:12px;color:var(--muted)}
+.filters{
+  display:grid;grid-template-columns:repeat(4,minmax(140px,1fr)) auto;gap:12px;align-items:end;
+}
+.field label{display:block;font-size:11px;color:#77777b;margin:0 0 7px 3px;letter-spacing:.04em}
+.field select{
+  width:100%;appearance:none;border:1px solid #d7d7d4;background:#fafaf9;
+  color:#111;padding:13px 38px 13px 13px;border-radius:12px;outline:none;
+  background-image:
+    linear-gradient(45deg,transparent 50%,#777 50%),
+    linear-gradient(135deg,#777 50%,transparent 50%);
+  background-position:calc(100% - 17px) 18px,calc(100% - 12px) 18px;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+  transition:.18s ease;
+}
+.field select:focus{border-color:#333;box-shadow:0 0 0 3px rgba(0,0,0,.06)}
+.reset{
+  border:0;background:#0d0d0f;color:#fff;border-radius:12px;padding:13px 18px;
+  min-width:102px;transition:.18s ease;
+}
+.reset:hover{background:#252529;transform:translateY(-1px)}
+
+.section{margin-top:28px}
+.section-head{
+  display:flex;align-items:end;justify-content:space-between;gap:18px;margin:0 2px 14px;
+}
+.section-head h2{margin:0;font-size:26px;letter-spacing:-.035em;font-weight:500}
+.section-head p{margin:0;color:var(--muted);font-size:12px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{
+  position:relative;overflow:hidden;background:var(--surface);border:1px solid rgba(0,0,0,.065);
+  border-radius:var(--radius-lg);padding:22px 22px 20px;min-height:154px;box-shadow:var(--shadow-soft);
+}
+.kpi:after{
+  content:"";position:absolute;width:95px;height:95px;border-radius:50%;
+  border:1px solid rgba(0,0,0,.05);right:-45px;top:-38px;
+}
+.kpi-label{font-size:11px;color:#79797c;text-transform:uppercase;letter-spacing:.12em}
+.kpi-value{font-size:clamp(27px,3vw,40px);font-weight:500;letter-spacing:-.045em;margin-top:21px}
+.kpi-sub{font-size:12px;color:#777;margin-top:8px;line-height:1.35}
+.kpi.red{background:linear-gradient(145deg,#bd0018,#e00020);color:#fff;border-color:transparent}
+.kpi.red .kpi-label,.kpi.red .kpi-sub{color:rgba(255,255,255,.72)}
+.kpi.red:after{border-color:rgba(255,255,255,.18)}
+
+.grid-main{display:grid;grid-template-columns:1.35fr .85fr;gap:14px}
+.card{
+  background:var(--surface);border:1px solid rgba(0,0,0,.065);border-radius:var(--radius-lg);
+  padding:22px;box-shadow:var(--shadow-soft);min-width:0;
+}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+.card-title{margin:0;font-size:18px;font-weight:600;letter-spacing:-.025em}
+.card-kicker{font-size:11px;color:var(--muted);margin-top:4px}
+.mini-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;
+  background:#f2f2f0;color:#6f6f73;font-size:10px;white-space:nowrap;
+}
+.mini-badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red)}
+
+.bar-list{display:flex;flex-direction:column;gap:14px}
+.city-metric-list{display:flex;flex-direction:column;gap:17px}
+.city-metric-row{
+  display:grid;
+  grid-template-columns:minmax(105px,1.15fr) 4fr minmax(148px,1.5fr);
+  align-items:center;
+  gap:13px;
+}
+.city-metric-name{
+  font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.city-dual-track{display:flex;flex-direction:column;gap:6px}
+.metric-track{height:6px;background:#ececea;border-radius:999px;overflow:hidden;position:relative}
+.metric-fill-sales{
+  height:100%;border-radius:999px;background:linear-gradient(90deg,#151517,#4a4a4f);
+  transition:width .5s ease
+}
+.metric-fill-revenue{
+  height:100%;border-radius:999px;background:linear-gradient(90deg,#9f0015,#d5001c);
+  transition:width .5s ease
+}
+.city-metric-values{display:flex;flex-direction:column;gap:3px;text-align:right;white-space:nowrap}
+.city-sales-value{font-size:11px;color:#505055;font-weight:600}
+.city-revenue-value{font-size:11px;color:#d5001c;font-weight:600}
+.city-chart-legend{
+  display:flex;justify-content:flex-end;gap:14px;margin:-5px 0 14px;font-size:10px;color:#77777c
+}
+.city-chart-legend span{display:inline-flex;align-items:center;gap:6px}
+.city-chart-legend i{width:14px;height:4px;border-radius:99px;display:inline-block}
+.city-chart-legend .sales-key{background:#252529}
+.city-chart-legend .revenue-key{background:#d5001c}
+
+.bar-row{display:grid;grid-template-columns:minmax(110px,1.2fr) 4fr auto;align-items:center;gap:12px}
+.bar-name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:8px;background:#ececea;border-radius:999px;overflow:hidden}
+.fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#151517,#d5001c);width:0;transition:width .5s ease}
+.bar-value{font-size:11px;color:#6f6f73;min-width:38px;text-align:right}
+
+.year-chart{
+  height:255px;display:flex;align-items:end;gap:12px;padding:12px 4px 0;border-bottom:1px solid #ededeb;
+}
+.year-col{flex:1;min-width:28px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px}
+.year-bar{
+  width:min(46px,80%);min-height:3px;border-radius:10px 10px 2px 2px;
+  background:linear-gradient(180deg,#e21430 0%,#b80018 100%);
+  transition:height .45s ease;box-shadow:0 9px 18px rgba(213,0,28,.12)
+}
+.year-count{font-size:10px;color:#6f6f73}
+.year-label{font-size:10px;color:#4e4e52}
+
+.grid-secondary{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.donut-wrap{display:grid;grid-template-columns:190px 1fr;gap:26px;align-items:center}
+.payment-summary{
+  display:grid;
+  grid-template-columns:150px 1fr;
+  gap:26px;
+  align-items:center;
+}
+.payment-total{
+  min-height:176px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#111114,#232329);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:18px;
+}
+.payment-total span{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:#a9a9af;
+}
+.payment-total strong{
+  font-size:42px;
+  line-height:1;
+  margin:10px 0 5px;
+  font-weight:500;
+  letter-spacing:-.05em;
+}
+.payment-total small{
+  font-size:11px;
+  color:#c8c8cd;
+}
+.payment-bars{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+.payment-row{
+  display:grid;
+  grid-template-columns:minmax(110px,1.25fr) 3fr minmax(82px,.9fr);
+  align-items:center;
+  gap:12px;
+}
+.payment-name{
+  font-size:12px;
+  color:#36363a;
+  font-weight:600;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.payment-track{
+  height:9px;
+  background:#ececea;
+  border-radius:999px;
+  overflow:hidden;
+}
+.payment-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#151517,#d5001c);
+  transition:width .45s ease;
+}
+.payment-values{
+  text-align:right;
+  display:flex;
+  flex-direction:column;
+  line-height:1.15;
+}
+.payment-values strong{
+  font-size:11px;
+  color:#333337;
+}
+.payment-values span{
+  font-size:10px;
+  color:#8a8a8f;
+  margin-top:3px;
+}
+
+
+.insight-card{
+  background:linear-gradient(135deg,#111114 0%,#1d1d22 100%);color:#fff;
+  border-color:transparent;position:relative;overflow:hidden;
+}
+.insight-card:before{
+  content:"";position:absolute;left:-75px;bottom:-95px;width:230px;height:230px;
+  border:1px solid rgba(255,255,255,.09);border-radius:50%;
+  box-shadow:0 0 0 45px rgba(255,255,255,.018),0 0 0 90px rgba(255,255,255,.012);
+}
+.insight-card .card-kicker{color:#9e9ea5}
+.insight-copy{position:relative;z-index:2;font-size:20px;line-height:1.36;letter-spacing:-.025em;max-width:720px;margin:28px 0 24px}
+.insight-chips{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px}
+.insight-chip{
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);
+  border-radius:999px;padding:8px 10px;font-size:10px;color:#d0d0d5
+}
+
+.table-card{padding:0;overflow:hidden}
+.table-head{padding:22px 22px 16px}
+.table-scroll{overflow:auto;max-height:470px;border-top:1px solid #ececea}
+table{width:100%;border-collapse:collapse;min-width:760px}
+thead th{
+  position:sticky;top:0;z-index:2;background:#f7f7f5;text-align:left;padding:12px 16px;
+  font-size:10px;color:#747478;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #e5e5e2;
+}
+tbody td{padding:13px 16px;border-bottom:1px solid #efefed;font-size:12px;vertical-align:middle}
+tbody tr:hover{background:#fafaf8}
+.city-cell{font-weight:600}
+.model-pill{display:inline-block;padding:6px 9px;border-radius:999px;background:#f0f0ee;font-size:10px;margin:2px 3px 2px 0}
+.share{display:flex;align-items:center;gap:8px}
+.share-track{width:82px;height:5px;border-radius:99px;background:#ececea;overflow:hidden}
+.share-fill{height:100%;background:#111}
+
+.empty{padding:44px 8px;text-align:center;color:#777;font-size:12px}
+
+.footer{
+  display:flex;justify-content:space-between;gap:20px;align-items:flex-start;
+  margin:22px 2px 0;padding-top:18px;border-top:1px solid #d7d7d4;color:#747478;font-size:10px;line-height:1.55;
+}
+.footer a{color:inherit}
+.footer strong{color:#444}
+.quality-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#d2a300;margin-right:6px}
+
+@media (max-width:1100px){
+  .filters{grid-template-columns:repeat(2,1fr)}
+  .reset{width:100%}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid-main,.grid-secondary{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .shell{padding:0 16px 36px}
+  .hero{margin:0 -16px 24px;padding:22px 22px 42px;min-height:410px}
+  .brand span{display:none}
+  .hero-copy{margin-top:88px}
+  .hero h1{font-size:52px}
+  .filter-panel{margin-top:-48px;padding:16px}
+  .filters{grid-template-columns:1fr}
+  .filter-meta{display:none}
+  .kpis{grid-template-columns:1fr}
+  .donut-wrap{grid-template-columns:1fr;justify-items:center}
+  .payment-summary{grid-template-columns:1fr}
+  .payment-total{min-height:130px}
+  .payment-row{grid-template-columns:95px 1fr 72px}
+    .bar-row{grid-template-columns:90px 1fr 36px}
+  .city-metric-row{grid-template-columns:88px 1fr 126px;gap:9px}
+  .city-metric-values{font-size:10px}
+  .footer{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="hero">
+    <div class="brandbar">
+      <div class="brand">PORSCHE <span>SALES INTELLIGENCE</span></div>
+      <a class="hero-link" href="https://www.porsche.com/brazil/pt/" target="_blank" rel="noreferrer">Referência visual · Porsche Brasil</a>
+    </div>
+    <div class="hero-copy">
+      <div class="eyebrow">Performance comercial</div>
+      <h1>Precisão que<br>vira decisão.</h1>
+      <p>Uma visão executiva sobre mix de modelos, concentração por cidade, ano de modelo e formas de pagamento — construída para transformar a base de vendas em leitura rápida e acionável.</p>
+      <div class="period-pill"><i></i><span id="periodText">Período da base</span></div>
+    </div>
+  </section>
+
+  <section class="filter-panel">
+    <div class="filter-head">
+      <div class="filter-title">Filtros</div>
+      <div class="filter-meta" id="filterMeta">94 registros na seleção atual</div>
+    </div>
+    <div class="filters">
+      <div class="field">
+        <label for="modelFilter">Modelo da Porsche</label>
+        <select id="modelFilter"></select>
+      </div>
+      <div class="field">
+        <label for="yearFilter">Model Year</label>
+        <select id="yearFilter"></select>
+      </div>
+      <div class="field">
+        <label for="cityFilter">City</label>
+        <select id="cityFilter"></select>
+      </div>
+      <div class="field">
+        <label for="payFilter">Pay Method</label>
+        <select id="payFilter"></select>
+      </div>
+      <button class="reset" id="resetBtn">Limpar filtros</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Visão executiva</h2>
+        <p>KPIs recalculados automaticamente conforme os filtros.</p>
+      </div>
+    </div>
+    <div class="kpis">
+      <article class="kpi red">
+        <div class="kpi-label">Vendas</div>
+        <div class="kpi-value" id="kpiSales">—</div>
+        <div class="kpi-sub" id="kpiSalesSub">registros no recorte</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Receita</div>
+        <div class="kpi-value" id="kpiRevenue">—</div>
+        <div class="kpi-sub">valor total das vendas selecionadas</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Ticket médio</div>
+        <div class="kpi-value" id="kpiAvg">—</div>
+        <div class="kpi-sub">média por veículo vendido</div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-label">Ano de modelo líder</div>
+        <div class="kpi-value" id="kpiYear">—</div>
+        <div class="kpi-sub" id="kpiYearSub">maior frequência no período</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section grid-main">
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Principais cidades por volume</h3>
+          <div class="card-kicker">Volume de vendas e receita por cidade</div>
+        </div>
+        <div class="mini-badge">Vendas × Receita</div>
+      </div>
+      <div class="city-chart-legend"><span><i class="sales-key"></i>Vendas</span><span><i class="revenue-key"></i>Receita</span></div>
+      <div class="city-metric-list" id="cityBars"></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Ano de modelo</h3>
+          <div class="card-kicker">Distribuição dos veículos vendidos</div>
+        </div>
+        <div class="mini-badge">Model Year</div>
+      </div>
+      <div class="year-chart" id="yearChart"></div>
+    </article>
+  </section>
+
+  <section class="section grid-secondary">
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Modelos mais populares</h3>
+          <div class="card-kicker">Ranking por quantidade de vendas</div>
+        </div>
+        <div class="mini-badge">Top modelos</div>
+      </div>
+      <div class="bar-list" id="modelBars"></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Mix de pagamento</h3>
+          <div class="card-kicker">Comparação clara por volume e participação</div>
+        </div>
+        <div class="mini-badge">Métodos de pagamento</div>
+      </div>
+      <div class="payment-summary">
+        <div class="payment-total">
+          <span>Total no recorte</span>
+          <strong id="payTotal">0</strong>
+          <small>vendas</small>
+        </div>
+        <div class="payment-bars" id="payBars"></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="section">
+    <article class="card insight-card">
+      <div class="card-head">
+        <div>
+          <h3 class="card-title">Insight executivo</h3>
+          <div class="card-kicker">Leitura automática do recorte selecionado</div>
+        </div>
+        <div class="mini-badge">Atualização instantânea</div>
+      </div>
+      <div class="insight-copy" id="insightCopy">—</div>
+      <div class="insight-chips" id="insightChips"></div>
+    </article>
+  </section>
+
+  <section class="section">
+    <article class="card table-card">
+      <div class="table-head">
+        <div class="card-head" style="margin-bottom:0">
+          <div>
+            <h3 class="card-title">Modelos líderes por cidade</h3>
+            <div class="card-kicker">Responde diretamente quais carros têm maior presença em cada praça.</div>
+          </div>
+          <div class="mini-badge">City × Model</div>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Cidade</th>
+              <th>Modelo(s) líder(es)</th>
+              <th>Vendas do líder</th>
+              <th>Vendas na cidade</th>
+              <th>Participação</th>
+              <th>Receita</th>
+            </tr>
+          </thead>
+          <tbody id="cityTable"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <footer class="footer">
+    <div><strong>Fonte:</strong> planilha fornecida para o projeto. Valores monetários exibidos em USD.</div>
+    <div><span class="quality-dot"></span><strong>Qualidade de dados:</strong> <span id="qualityText"></span></div>
+  </footer>
+</div>
+
+<script>
+const DATA = [{"sale_id":6,"sale_date":"INVALID","model":"718 Cayman","model_year":2022,"sales_price":79500.0,"pay_method":"Credit Card","city":"Boston","state":"MA"},{"sale_id":7,"sale_date":"2024-03-14","model":"911 Turbo S","model_year":2024,"sales_price":235000.0,"pay_method":"Wire Transfer","city":"Seattle","state":"WA"},{"sale_id":8,"sale_date":"2024-04-18","model":"Cayenne Coupe","model_year":2023,"sales_price":112750.0,"pay_method":"Financing","city":"Austin","state":"TX"},{"sale_id":9,"sale_date":"INVALID","model":"Macan S","model_year":2021,"sales_price":68900.0,"pay_method":"Cash","city":"Denver","state":"CO"},{"sale_id":10,"sale_date":"2024-05-22","model":"Taycan 4S","model_year":2024,"sales_price":121000.0,"pay_method":"Bank Transfer","city":"Los Angeles","state":"CA"},{"sale_id":11,"sale_date":"2024-08-06","model":"Panamera 4","model_year":2023,"sales_price":104500.0,"pay_method":"Credit Card","city":"Miami","state":"FL"},{"sale_id":12,"sale_date":"2024-07-11","model":"911 Carrera S","model_year":2020,"sales_price":96300.0,"pay_method":"Lease","city":"New York","state":"NY"},{"sale_id":13,"sale_date":"INVALID","model":"Cayenne E-Hybrid","model_year":2022,"sales_price":89750.0,"pay_method":"Wire Transfer","city":"San Diego","state":"CA"},{"sale_id":14,"sale_date":"2024-08-19","model":"718 Boxster","model_year":2021,"sales_price":73500.0,"pay_method":"Debit Card","city":"Chicago","state":"IL"},{"sale_id":15,"sale_date":"2024-09-02","model":"Macan GTS","model_year":2024,"sales_price":95000.0,"pay_method":"Financing","city":"Phoenix","state":"AZ"},{"sale_id":16,"sale_date":"2024-09-17","model":"Taycan Turbo","model_year":2023,"sales_price":153200.5,"pay_method":"ACH Payment","city":"Dallas","state":"TX"},{"sale_id":17,"sale_date":"INVALID","model":"911 GT3","model_year":2024,"sales_price":241000.0,"pay_method":"Wire Transfer","city":"Las Vegas","state":"NV"},{"sale_id":18,"sale_date":"2024-05-11","model":"Panamera Turbo S","model_year":2022,"sales_price":132000.0,"pay_method":"Cash","city":"San Jose","state":"CA"},{"sale_id":19,"sale_date":"2024-12-12","model":"Cayenne Turbo GT","model_year":2024,"sales_price":188000.0,"pay_method":"Crypto Payment","city":"Houston","state":"TX"},{"sale_id":20,"sale_date":"2024-12-25","model":"911 Carrera Cabriolet","model_year":2023,"sales_price":127800.0,"pay_method":"Credit Card","city":"Atlanta","state":"GA"},{"sale_id":21,"sale_date":"2025-01-06","model":"Macan","model_year":2021,"sales_price":58900.0,"pay_method":"Bank Transfer","city":"Orlando","state":"FL"},{"sale_id":22,"sale_date":"INVALID","model":"718 Spyder RS","model_year":2024,"sales_price":164000.0,"pay_method":"Financing","city":"Portland","state":"OR"},{"sale_id":23,"sale_date":"2025-02-14","model":"Taycan Cross Turismo","model_year":2023,"sales_price":118500.0,"pay_method":"Wire Transfer","city":"Charlotte","state":"NC"},{"sale_id":24,"sale_date":"INVALID","model":"Cayenne S","model_year":2022,"sales_price":91300.0,"pay_method":"Credit Card","city":"Nashville","state":"TN"},{"sale_id":25,"sale_date":"2025-03-21","model":"911 Targa 4S","model_year":2024,"sales_price":158750.0,"pay_method":"Lease","city":"Minneapolis","state":"MN"},{"sale_id":26,"sale_date":"2025-03-28","model":"Panamera","model_year":2020,"sales_price":72000.0,"pay_method":"Bank Transfer","city":"Philadelphia","state":"PA"},{"sale_id":27,"sale_date":"2025-04-09","model":"Macan Electric","model_year":2025,"sales_price":86500.0,"pay_method":"Wire Transfer","city":"San Antonio","state":"TX"},{"sale_id":28,"sale_date":"INVALID","model":"911 Dakar","model_year":2024,"sales_price":270000.0,"pay_method":"Cash","city":"Salt Lake City","state":"UT"},{"sale_id":29,"sale_date":"2025-05-12","model":"Taycan GTS","model_year":2023,"sales_price":139000.0,"pay_method":"Financing","city":"Raleigh","state":"NC"},{"sale_id":30,"sale_date":"2025-06-18","model":"Cayenne","model_year":2021,"sales_price":76800.0,"pay_method":"Credit Card","city":"Detroit","state":"MI"},{"sale_id":31,"sale_date":"INVALID","model":"718 Cayman GT4 RS","model_year":2024,"sales_price":173600.0,"pay_method":"Wire Transfer","city":"Columbus","state":"OH"},{"sale_id":32,"sale_date":"2025-07-07","model":"911 Carrera GTS","model_year":2022,"sales_price":119900.0,"pay_method":"Cash","city":"Indianapolis","state":"IN"},{"sale_id":33,"sale_date":"2025-07-22","model":"Panamera 4 E-Hybrid","model_year":2023,"sales_price":109250.0,"pay_method":"Lease","city":"Fort Worth","state":"TX"},{"sale_id":34,"sale_date":"2025-08-14","model":"Macan T","model_year":2022,"sales_price":82000.0,"pay_method":"Wire Transfer","city":"Jacksonville","state":"FL"},{"sale_id":35,"sale_date":"2025-09-01","model":"Taycan Turbo S","model_year":2025,"sales_price":214000.0,"pay_method":"Crypto Payment","city":"San Diego","state":"CA"},{"sale_id":36,"sale_date":"INVALID","model":"911 Carrera","model_year":2024,"sales_price":124500.0,"pay_method":"Credit Card","city":"Tampa","state":"FL"},{"sale_id":37,"sale_date":"2025-09-18","model":"Cayenne S","model_year":2023,"sales_price":98200.0,"pay_method":"Bank Transfer","city":"Sacramento","state":"CA"},{"sale_id":38,"sale_date":"2025-10-04","model":"Macan","model_year":2022,"sales_price":67500.0,"pay_method":"Financing","city":"Cleveland","state":"OH"},{"sale_id":39,"sale_date":"2025-10-12","model":"Taycan","model_year":2025,"sales_price":116900.0,"pay_method":"Wire Transfer","city":"Milwaukee","state":"WI"},{"sale_id":40,"sale_date":"2025-10-29","model":"Panamera 4S","model_year":2024,"sales_price":112000.0,"pay_method":"Cash","city":"Kansas City","state":"MO"},{"sale_id":41,"sale_date":"2025-02-11","model":"718 Boxster","model_year":2021,"sales_price":74000.0,"pay_method":"Debit Card","city":"Omaha","state":"NE"},{"sale_id":42,"sale_date":"2025-11-16","model":"911 Turbo","model_year":2024,"sales_price":198300.0,"pay_method":"Wire Transfer","city":"Albuquerque","state":"NM"},{"sale_id":43,"sale_date":"INVALID","model":"Cayenne Coupe","model_year":2023,"sales_price":103750.0,"pay_method":"Wire Transfer","city":"Tucson","state":"AZ"},{"sale_id":44,"sale_date":"INVALID","model":"Macan GTS","model_year":2024,"sales_price":93600.0,"pay_method":"Financing","city":"Fresno","state":"CA"},{"sale_id":45,"sale_date":"2025-12-07","model":"Taycan 4S","model_year":2025,"sales_price":129000.0,"pay_method":"ACH Payment","city":"Virginia Beach","state":"VA"},{"sale_id":46,"sale_date":"2025-12-22","model":"Panamera Turbo","model_year":2022,"sales_price":136000.0,"pay_method":"Credit Card","city":"Colorado Springs","state":"CO"},{"sale_id":47,"sale_date":"INVALID","model":"911 GT3 RS","model_year":2024,"sales_price":286500.0,"pay_method":"Wire Transfer","city":"Arlington","state":"TX"},{"sale_id":48,"sale_date":"2026-01-08","model":"Cayenne E-Hybrid","model_year":2023,"sales_price":92800.0,"pay_method":"Lease","city":"Bakersfield","state":"CA"},{"sale_id":49,"sale_date":"2026-01-15","model":"Macan T","model_year":2022,"sales_price":72400.0,"pay_method":"Cash","city":"Mesa","state":"AZ"},{"sale_id":50,"sale_date":"2026-01-28","model":"Taycan Turbo","model_year":2025,"sales_price":158500.0,"pay_method":"Crypto Payment","city":"Atlanta","state":"GA"},{"sale_id":51,"sale_date":"2026-02-03","model":"718 Cayman","model_year":2021,"sales_price":69900.0,"pay_method":"Bank Transfer","city":"Long Beach","state":"CA"},{"sale_id":52,"sale_date":"INVALID","model":"911 Targa 4","model_year":2024,"sales_price":141250.0,"pay_method":"Financing","city":"Oakland","state":"CA"},{"sale_id":53,"sale_date":"2026-02-19","model":"Panamera","model_year":2020,"sales_price":71500.0,"pay_method":"Wire Transfer","city":"Tulsa","state":"OK"},{"sale_id":54,"sale_date":"2026-02-25","model":"Cayenne Turbo","model_year":2023,"sales_price":146800.0,"pay_method":"Credit Card","city":"Wichita","state":"KS"},{"sale_id":55,"sale_date":"2026-03-01","model":"Macan Electric","model_year":2025,"sales_price":89700.0,"pay_method":"Lease","city":"New Orleans","state":"LA"},{"sale_id":56,"sale_date":"2026-03-14","model":"911 Carrera S","model_year":2022,"sales_price":104600.0,"pay_method":"Bank Transfer","city":"Honolulu","state":"HI"},{"sale_id":57,"sale_date":"INVALID","model":"Taycan GTS","model_year":2024,"sales_price":142000.0,"pay_method":"Wire Transfer","city":"Anaheim","state":"CA"},{"sale_id":58,"sale_date":"2026-04-08","model":"Cayenne","model_year":2021,"sales_price":78400.0,"pay_method":"Cash","city":"Henderson","state":"NV"},{"sale_id":59,"sale_date":"INVALID","model":"718 Spyder RS","model_year":2025,"sales_price":169000.0,"pay_method":"Financing","city":"Lexington","state":"KY"},{"sale_id":60,"sale_date":"2026-04-21","model":"911 Dakar","model_year":2024,"sales_price":268900.0,"pay_method":"Credit Card","city":"Riverside","state":"CA"},{"sale_id":61,"sale_date":"2026-04-29","model":"Panamera 4","model_year":2023,"sales_price":101300.0,"pay_method":"Wire Transfer","city":"Corpus Christi","state":"TX"},{"sale_id":62,"sale_date":"2026-05-05","model":"Macan S","model_year":2021,"sales_price":66750.0,"pay_method":"Cash","city":"St. Louis","state":"MO"},{"sale_id":63,"sale_date":"2026-05-14","model":"Taycan Cross Turismo","model_year":2024,"sales_price":127900.0,"pay_method":"Lease","city":"Pittsburgh","state":"PA"},{"sale_id":64,"sale_date":"2026-05-23","model":"Cayenne Turbo GT","model_year":2025,"sales_price":200000.0,"pay_method":"Wire Transfer","city":"Cincinnati","state":"OH"},{"sale_id":65,"sale_date":"2026-06-02","model":"911 Carrera Cabriolet","model_year":2023,"sales_price":132000.0,"pay_method":"Crypto Payment","city":"Anchorage","state":"AK"},{"sale_id":66,"sale_date":"2026-06-15","model":"718 Cayman GT4 RS","model_year":2024,"sales_price":176400.0,"pay_method":"Credit Card","city":"Plano","state":"TX"},{"sale_id":67,"sale_date":"INVALID","model":"Panamera 4 E-Hybrid","model_year":2022,"sales_price":108500.0,"pay_method":"Bank Transfer","city":"Newark","state":"NJ"},{"sale_id":68,"sale_date":"2026-07-07","model":"Macan","model_year":2021,"sales_price":59000.0,"pay_method":"Financing","city":"Greensboro","state":"NC"},{"sale_id":69,"sale_date":"2026-07-20","model":"Taycan Turbo S","model_year":2025,"sales_price":218000.0,"pay_method":"Wire Transfer","city":"Lincoln","state":"NE"},{"sale_id":70,"sale_date":"INVALID","model":"Cayenne S","model_year":2024,"sales_price":99950.0,"pay_method":"Debit Card","city":"Jersey City","state":"NJ"},{"sale_id":71,"sale_date":"2026-04-08","model":"911 Carrera GTS","model_year":2024,"sales_price":121750.0,"pay_method":"Credit Card","city":"Chandler","state":"AZ"},{"sale_id":72,"sale_date":"2026-08-18","model":"718 Boxster GTS","model_year":2023,"sales_price":91500.0,"pay_method":"Lease","city":"Reno","state":"NV"},{"sale_id":73,"sale_date":"2026-08-31","model":"Panamera Turbo S","model_year":2022,"sales_price":134000.0,"pay_method":"Wire Transfer","city":"Buffalo","state":"NY"},{"sale_id":74,"sale_date":"2026-09-09","model":"Macan GTS","model_year":2024,"sales_price":96800.0,"pay_method":"ACH Payment","city":"Durham","state":"NC"},{"sale_id":75,"sale_date":"2026-09-17","model":"Taycan 4S","model_year":2025,"sales_price":131600.0,"pay_method":"Wire Transfer","city":"Laredo","state":"TX"},{"sale_id":76,"sale_date":"2026-09-28","model":"Cayenne E-Hybrid","model_year":2023,"sales_price":94300.0,"pay_method":"Cash","city":"Madison","state":"WI"},{"sale_id":77,"sale_date":"2026-10-06","model":"911 Turbo S","model_year":2025,"sales_price":242000.0,"pay_method":"Crypto Payment","city":"Lubbock","state":"TX"},{"sale_id":78,"sale_date":"2026-10-16","model":"718 Cayman S","model_year":2022,"sales_price":82750.0,"pay_method":"Credit Card","city":"Toledo","state":"OH"},{"sale_id":79,"sale_date":"2026-10-29","model":"Macan Electric","model_year":2026,"sales_price":91300.0,"pay_method":"Wire Transfer","city":"Irvine","state":"CA"},{"sale_id":80,"sale_date":"2026-11-03","model":"Panamera","model_year":2021,"sales_price":79900.0,"pay_method":"Financing","city":"Garland","state":"TX"},{"sale_id":81,"sale_date":"INVALID","model":"Cayenne Coupe","model_year":2024,"sales_price":111000.0,"pay_method":"Bank Transfer","city":"Irving","state":"TX"},{"sale_id":82,"sale_date":"2026-12-11","model":"911 Targa 4S","model_year":2023,"sales_price":156500.0,"pay_method":"Cash","city":"Chesapeake","state":"VA"},{"sale_id":83,"sale_date":"2026-12-24","model":"Taycan","model_year":2025,"sales_price":119900.0,"pay_method":"Lease","city":"Scottsdale","state":"AZ"},{"sale_id":84,"sale_date":"INVALID","model":"Macan T","model_year":2022,"sales_price":73200.0,"pay_method":"Wire Transfer","city":"Norfolk","state":"VA"},{"sale_id":85,"sale_date":"2026-12-28","model":"911 GT3","model_year":2024,"sales_price":224000.0,"pay_method":"Wire Transfer","city":"Boise","state":"ID"},{"sale_id":86,"sale_date":"2027-01-15","model":"911 Carrera","model_year":2024,"sales_price":126900.0,"pay_method":"Credit Card","city":"Orlando","state":"FL"},{"sale_id":87,"sale_date":"2027-01-29","model":"Cayenne","model_year":2023,"sales_price":84500.0,"pay_method":"Bank Transfer","city":"San Jose","state":"CA"},{"sale_id":88,"sale_date":"2027-02-11","model":"Macan S","model_year":2022,"sales_price":69800.0,"pay_method":"Financing","city":"Tampa","state":"FL"},{"sale_id":89,"sale_date":"INVALID","model":"Taycan 4S","model_year":2025,"sales_price":132700.0,"pay_method":"Wire Transfer","city":"Denver","state":"CO"},{"sale_id":90,"sale_date":"2027-03-05","model":"Panamera","model_year":2021,"sales_price":81000.0,"pay_method":"Cash","city":"Austin","state":"TX"},{"sale_id":91,"sale_date":"2027-03-18","model":"718 Cayman","model_year":2023,"sales_price":78900.0,"pay_method":"Debit Card","city":"Seattle","state":"WA"},{"sale_id":92,"sale_date":"2027-04-02","model":"911 Turbo S","model_year":2026,"sales_price":249300.0,"pay_method":"Wire Transfer","city":"Boston","state":"MA"},{"sale_id":93,"sale_date":"INVALID","model":"Cayenne Coupe","model_year":2024,"sales_price":108750.0,"pay_method":"Wire Transfer","city":"Phoenix","state":"AZ"},{"sale_id":94,"sale_date":"INVALID","model":"Macan Electric","model_year":2026,"sales_price":92600.0,"pay_method":"Financing","city":"Chicago","state":"IL"},{"sale_id":95,"sale_date":"2027-05-12","model":"Taycan Turbo","model_year":2025,"sales_price":164000.0,"pay_method":"ACH Payment","city":"Dallas","state":"TX"},{"sale_id":96,"sale_date":"2027-05-27","model":"Panamera 4S","model_year":2024,"sales_price":119000.0,"pay_method":"Credit Card","city":"San Francisco","state":"CA"},{"sale_id":97,"sale_date":"INVALID","model":"911 GT3","model_year":2026,"sales_price":232500.0,"pay_method":"Wire Transfer","city":"Las Vegas","state":"NV"},{"sale_id":98,"sale_date":"2027-06-18","model":"Cayenne E-Hybrid","model_year":2023,"sales_price":96800.0,"pay_method":"Lease","city":"Charlotte","state":"NC"},{"sale_id":99,"sale_date":"2027-07-03","model":"Macan T","model_year":2022,"sales_price":74400.0,"pay_method":"Cash","city":"Mesa","state":"AZ"}];
+const INVALID_DATES = 23;
+
+const $ = (id) => document.getElementById(id);
+const filters = {
+  model: $("modelFilter"),
+  year: $("yearFilter"),
+  city: $("cityFilter"),
+  pay: $("payFilter")
+};
+
+const palette = ["#111114","#d5001c","#77777c","#b9b9b5","#6e1d2a","#9d9186","#3f3f43","#e2dfda","#8f0013","#59595e"];
+
+function uniqueSorted(key, numeric=false){
+  const arr = [...new Set(DATA.map(d => d[key]).filter(v => v !== null && v !== undefined && v !== ""))];
+  return arr.sort((a,b)=> numeric ? b-a : String(a).localeCompare(String(b), "pt-BR"));
+}
+function fillSelect(el, values, label){
+  el.innerHTML = `<option value="">Todos</option>` + values.map(v => `<option value="${escapeHtml(String(v))}">${escapeHtml(String(v))}</option>`).join("");
+  el.setAttribute("aria-label", label);
+}
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+}
+function countBy(list, key){
+  const map = new Map();
+  list.forEach(d => map.set(d[key], (map.get(d[key]) || 0) + 1));
+  return [...map.entries()].sort((a,b)=> b[1]-a[1] || String(a[0]).localeCompare(String(b[0]),"pt-BR"));
+}
+function money(v){
+  return new Intl.NumberFormat("pt-BR",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(v || 0);
+}
+function compactMoney(v){
+  if(v >= 1000000) return `US$ ${(v/1000000).toLocaleString("pt-BR",{maximumFractionDigits:2})} mi`;
+  if(v >= 1000) return `US$ ${(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1})} mil`;
+  return money(v);
+}
+function pct(v){ return `${(v*100).toLocaleString("pt-BR",{maximumFractionDigits:1})}%`; }
+
+function getFiltered(){
+  return DATA.filter(d =>
+    (!filters.model.value || d.model === filters.model.value) &&
+    (!filters.year.value || String(d.model_year) === filters.year.value) &&
+    (!filters.city.value || d.city === filters.city.value) &&
+    (!filters.pay.value || d.pay_method === filters.pay.value)
+  );
+}
+function formatDateBR(s){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
+  const [y,m,d]=s.split("-");
+  return `${d}/${m}/${y}`;
+}
+function updatePeriod(){
+  const dates = DATA.map(d=>d.sale_date).filter(s=>/^\d{4}-\d{2}-\d{2}$/.test(s)).sort();
+  if(!dates.length){ $("periodText").textContent="Período indisponível"; return; }
+  $("periodText").textContent=`Período da base · ${formatDateBR(dates[0])} — ${formatDateBR(dates[dates.length-1])}`;
+}
+function renderKpis(list){
+  const n=list.length;
+  const rev=list.reduce((s,d)=>s+d.sales_price,0);
+  const years=countBy(list,"model_year").filter(([y])=>y!==null);
+  const topYear=years[0];
+  $("kpiSales").textContent=n.toLocaleString("pt-BR");
+  $("kpiSalesSub").textContent=`${n === 1 ? "registro" : "registros"} no recorte`;
+  $("kpiRevenue").textContent=compactMoney(rev);
+  $("kpiAvg").textContent=n ? compactMoney(rev/n) : "—";
+  $("kpiYear").textContent=topYear ? topYear[0] : "—";
+  $("kpiYearSub").textContent=topYear ? `${topYear[1]} vendas · ${pct(topYear[1]/n)}` : "sem dados no recorte";
+}
+function renderBars(targetId, entries, maxItems=10){
+  const el=$(targetId);
+  const data=entries.slice(0,maxItems);
+  if(!data.length){ el.innerHTML=`<div class="empty">Nenhum dado encontrado para os filtros selecionados.</div>`; return; }
+  const max=data[0][1] || 1;
+  el.innerHTML=data.map(([name,val])=>`
+    <div class="bar-row">
+      <div class="bar-name" title="${escapeHtml(String(name))}">${escapeHtml(String(name))}</div>
+      <div class="track"><div class="fill" style="width:${Math.max(4,(val/max)*100)}%"></div></div>
+      <div class="bar-value">${val}</div>
+    </div>`).join("");
+}
+function renderCityMetrics(list){
+  const el=$("cityBars");
+  const cityMap=new Map();
+
+  list.forEach(d=>{
+    if(!cityMap.has(d.city)) cityMap.set(d.city,{sales:0,revenue:0});
+    const item=cityMap.get(d.city);
+    item.sales += 1;
+    item.revenue += d.sales_price;
+  });
+
+  const data=[...cityMap.entries()]
+    .map(([city,v])=>({city,sales:v.sales,revenue:v.revenue}))
+    .sort((a,b)=>b.sales-a.sales || b.revenue-a.revenue || a.city.localeCompare(b.city,"pt-BR"))
+    .slice(0,10);
+
+  if(!data.length){
+    el.innerHTML=`<div class="empty">Nenhum dado encontrado para os filtros selecionados.</div>`;
+    return;
+  }
+
+  const maxSales=Math.max(...data.map(d=>d.sales),1);
+  const maxRevenue=Math.max(...data.map(d=>d.revenue),1);
+
+  el.innerHTML=data.map(d=>`
+    <div class="city-metric-row">
+      <div class="city-metric-name" title="${escapeHtml(d.city)}">${escapeHtml(d.city)}</div>
+      <div class="city-dual-track">
+        <div class="metric-track" title="${d.sales} vendas">
+          <div class="metric-fill-sales" style="width:${Math.max(4,(d.sales/maxSales)*100)}%"></div>
+        </div>
+        <div class="metric-track" title="${money(d.revenue)} de receita">
+          <div class="metric-fill-revenue" style="width:${Math.max(4,(d.revenue/maxRevenue)*100)}%"></div>
+        </div>
+      </div>
+      <div class="city-metric-values">
+        <span class="city-sales-value">${d.sales} ${d.sales===1?"venda":"vendas"}</span>
+        <span class="city-revenue-value">${compactMoney(d.revenue)}</span>
+      </div>
+    </div>`).join("");
+}
+function renderYears(list){
+  const el=$("yearChart");
+  const entries=countBy(list,"model_year").filter(([y])=>y!==null).sort((a,b)=>a[0]-b[0]);
+  if(!entries.length){el.innerHTML=`<div class="empty">Sem dados de ano de modelo.</div>`;return;}
+  const max=Math.max(...entries.map(e=>e[1]));
+  el.innerHTML=entries.map(([year,val])=>`
+    <div class="year-col">
+      <div class="year-count">${val}</div>
+      <div class="year-bar" style="height:${Math.max(5,(val/max)*190)}px"></div>
+      <div class="year-label">${year}</div>
+    </div>`).join("");
+}
+function renderPayment(list){
+  const entries=countBy(list,"pay_method");
+  const total=list.length || 1;
+  $("payTotal").textContent=list.length;
+
+  const el=$("payBars");
+  if(!entries.length){
+    el.innerHTML=`<div class="empty">Sem dados de pagamento para o recorte selecionado.</div>`;
+    return;
+  }
+
+  const max=entries[0][1] || 1;
+
+  el.innerHTML=entries.map(([name,val])=>`
+    <div class="payment-row">
+      <div class="payment-name" title="${escapeHtml(String(name))}">${escapeHtml(String(name))}</div>
+      <div class="payment-track" title="${val} vendas · ${pct(val/total)}">
+        <div class="payment-fill" style="width:${Math.max(5,(val/max)*100)}%"></div>
+      </div>
+      <div class="payment-values">
+        <strong>${val} ${val===1?"venda":"vendas"}</strong>
+        <span>${pct(val/total)}</span>
+      </div>
+    </div>`).join("");
+}
+function cityInsights(list){
+  const map=new Map();
+  list.forEach(d=>{
+    if(!map.has(d.city)) map.set(d.city,{count:0,revenue:0,models:new Map()});
+    const c=map.get(d.city);
+    c.count++; c.revenue+=d.sales_price;
+    c.models.set(d.model,(c.models.get(d.model)||0)+1);
+  });
+  return [...map.entries()].map(([city,o])=>{
+    const ranked=[...o.models.entries()].sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0],"pt-BR"));
+    const topCount=ranked[0]?.[1]||0;
+    const topModels=ranked.filter(x=>x[1]===topCount).map(x=>x[0]);
+    return {city,count:o.count,revenue:o.revenue,topCount,topModels,share:o.count?topCount/o.count:0};
+  }).sort((a,b)=> b.count-a.count || b.revenue-a.revenue || a.city.localeCompare(b.city,"pt-BR"));
+}
+function renderCityTable(list){
+  const rows=cityInsights(list);
+  $("cityTable").innerHTML=rows.map(r=>`
+    <tr>
+      <td class="city-cell">${escapeHtml(r.city)}</td>
+      <td>${r.topModels.map(m=>`<span class="model-pill">${escapeHtml(m)}</span>`).join("")}</td>
+      <td>${r.topCount}</td>
+      <td>${r.count}</td>
+      <td>
+        <div class="share">
+          <div class="share-track"><div class="share-fill" style="width:${Math.max(4,r.share*100)}%"></div></div>
+          <span>${pct(r.share)}</span>
+        </div>
+      </td>
+      <td>${money(r.revenue)}</td>
+    </tr>`).join("") || `<tr><td colspan="6"><div class="empty">Nenhuma cidade encontrada no recorte.</div></td></tr>`;
+}
+function renderInsight(list){
+  if(!list.length){
+    $("insightCopy").textContent="Não há registros para esta combinação de filtros.";
+    $("insightChips").innerHTML="";
+    return;
+  }
+  const models=countBy(list,"model");
+  const years=countBy(list,"model_year").filter(([y])=>y!==null);
+  const cities=cityInsights(list);
+  const topModel=models[0];
+  const topYear=years[0];
+  const topCity=cities[0];
+  const modelShare=topModel ? topModel[1]/list.length : 0;
+  const tieModels=models.filter(x=>x[1]===topModel[1]).map(x=>x[0]);
+  const modelText=tieModels.length>1
+    ? `Há empate na liderança entre ${tieModels.slice(0,3).join(", ")}${tieModels.length>3?" e outros":""}, com ${topModel[1]} vendas cada.`
+    : `${topModel[0]} é o modelo mais vendido, com ${topModel[1]} unidades (${pct(modelShare)} do recorte).`;
+  const cityModel = topCity?.topModels?.join(" / ") || "—";
+  $("insightCopy").textContent = `${modelText} O ano de modelo ${topYear?.[0] ?? "—"} concentra ${topYear ? pct(topYear[1]/list.length) : "—"} das vendas. ${topCity ? `${topCity.city} aparece como a praça de maior volume no recorte; nela, ${cityModel} lidera(m) a preferência.` : ""}`;
+  $("insightChips").innerHTML=[
+    topModel ? `Modelo líder · ${topModel[0]}` : "",
+    topYear ? `Ano líder · ${topYear[0]}` : "",
+    topCity ? `Cidade destaque · ${topCity.city}` : "",
+    `Receita · ${compactMoney(list.reduce((s,d)=>s+d.sales_price,0))}`
+  ].filter(Boolean).map(t=>`<span class="insight-chip">${escapeHtml(t)}</span>`).join("");
+}
+function update(){
+  const list=getFiltered();
+  $("filterMeta").textContent=`${list.length.toLocaleString("pt-BR")} ${list.length===1?"registro":"registros"} na seleção atual`;
+  renderKpis(list);
+  renderCityMetrics(list);
+  renderYears(list);
+  renderBars("modelBars",countBy(list,"model"),8);
+  renderPayment(list);
+  renderInsight(list);
+  renderCityTable(list);
+}
+fillSelect(filters.model,uniqueSorted("model"),"Modelo da Porsche");
+fillSelect(filters.year,uniqueSorted("model_year",true),"Model Year");
+fillSelect(filters.city,uniqueSorted("city"),"City");
+fillSelect(filters.pay,uniqueSorted("pay_method"),"Pay Method");
+Object.values(filters).forEach(el=>el.addEventListener("change",update));
+$("resetBtn").addEventListener("click",()=>{
+  Object.values(filters).forEach(el=>el.value="");
+  update();
+});
+$("qualityText").textContent=`${INVALID_DATES} registros possuem data de venda inválida. Os KPIs de volume e receita usam todos os registros; o período exibido considera apenas datas válidas.`;
+updatePeriod();
+update();
+</script>
+</body>
+</html>
